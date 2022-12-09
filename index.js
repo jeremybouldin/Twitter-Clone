@@ -7,6 +7,45 @@ tweetBtn.addEventListener('click', function(){
     console.log(tweetInput.value)
 })
 
+document.addEventListener('click', function(e){
+    if(e.target.dataset.like){
+        handleLikeClick(e.target.dataset.like)
+    }
+})
+
+//myVersion
+// function handleLikeClick(tweetId){
+//     tweetsData.forEach(function(tweet){
+//         if(tweet.uuid === tweetId){
+//             const targetTweetObj = tweet
+//         }
+//         if(tweet.uuid === tweetId && !tweet.isLiked){
+//             tweet.likes ++
+//             tweet.isLiked = true
+//         } else if (tweet.uuid === tweetId && tweet.isLiked){
+//             tweet.likes --
+//             tweet.isLiked = false
+//         }
+//     })
+//     renderTweets()
+// }
+
+//scrimbaVersion
+function handleLikeClick(tweetId){
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+
+    if(!targetTweetObj.isLiked){
+        targetTweetObj.likes ++
+    } else {
+        targetTweetObj.likes --
+    }
+    targetTweetObj.isLiked = !targetTweetObj.isLiked
+
+    renderTweets()
+}
+
 function getFeedHtml(tweets) {
     let feedHtml = ''
     tweets.forEach(function(tweet){
@@ -45,6 +84,3 @@ function renderTweets(){
 
 renderTweets()
 
-document.addEventListener('click', function(e){
-    console.log(e.target.dataset)
-})
