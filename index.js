@@ -10,6 +10,8 @@ tweetBtn.addEventListener('click', function(){
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
         handleLikeClick(e.target.dataset.like)
+    } else if (e.target.dataset.retweet){
+        handleRetweetClick(e.target.dataset.retweet)
     }
 })
 
@@ -32,16 +34,35 @@ document.addEventListener('click', function(e){
 
 //scrimbaVersion
 function handleLikeClick(tweetId){
+    //filter tweetsData array to find object with matching uuid
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === tweetId
     })[0]
 
+    //Increment, decrement, flip boolean
     if(!targetTweetObj.isLiked){
         targetTweetObj.likes ++
     } else {
         targetTweetObj.likes --
     }
     targetTweetObj.isLiked = !targetTweetObj.isLiked
+
+    renderTweets()
+}
+
+function handleRetweetClick(tweetId){
+    //filter tweetsData array to find object with matching uuid
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+
+    //Increment, decrement, flip boolean
+    if(!targetTweetObj.isRetweeted){
+        targetTweetObj.retweets ++
+    } else {
+        targetTweetObj.retweets --
+    }
+    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
 
     renderTweets()
 }
