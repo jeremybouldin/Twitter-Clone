@@ -10,8 +10,10 @@ tweetBtn.addEventListener('click', function(){
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
         handleLikeClick(e.target.dataset.like)
-    } else if (e.target.dataset.retweet){
+    } else if(e.target.dataset.retweet){
         handleRetweetClick(e.target.dataset.retweet)
+    } else if(e.target.dataset.reply){
+        handleReplyClick(e.target.dataset.reply)
     }
 })
 
@@ -57,7 +59,7 @@ function handleRetweetClick(tweetId){
     })[0]
 
     //Increment, decrement, flip boolean
-    if(!targetTweetObj.isRetweeted){
+    if (!targetTweetObj.isRetweeted){
         targetTweetObj.retweets ++
     } else {
         targetTweetObj.retweets --
@@ -65,6 +67,10 @@ function handleRetweetClick(tweetId){
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
 
     renderTweets()
+}
+
+function handleReplyClick(replyId){
+    const replyDiv = document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 }
 
 function getFeedHtml(tweets) {
@@ -79,8 +85,27 @@ function getFeedHtml(tweets) {
         if (tweet.isRetweeted){
             retweetIconClass = 'retweeted'
         }
+
+        let repliesHtml = ''
+
         if (tweet.replies.length > 0){
             console.log(tweet.uuid)
+            
+            tweet.replies.forEach(function(reply){
+                repliesHtml += `
+                <div class="tweet-reply">
+                    <div class="tweet-inner">
+                        <img src="${reply.profilePic}" class="profile-pic">
+                        <div>
+                            <p class="handle">${reply.handle}</p>
+                            <p class="tweet-text">${reply.tweetText}</p>
+                        </div>
+                    </div>
+                </div>
+                `
+            })
+        
+        
         }
 
         feedHtml += `
@@ -111,6 +136,10 @@ function getFeedHtml(tweets) {
                         </span>
                     </div>   
                 </div>            
+            </div>
+            <div id="replies-${tweet.uuid}">
+                <!-- replies here -->
+                ${repliesHtml}
             </div>
         </div>
         `
