@@ -114,6 +114,7 @@ function handleReplyInputBtnClick(tweetId){
     }
 }
 
+//Check the UUID of the tweet and delete
 function handleDeleteTweetBtnClick(tweetId){
     const targetTweet = tweetsData.filter(function(tweet, index, arr){
         if (tweet.uuid === tweetId){
@@ -123,13 +124,19 @@ function handleDeleteTweetBtnClick(tweetId){
         return false
     })
     // targetTweet.pop()
-    console.log(targetTweet)
-    console.log(tweetsData)
     renderTweets()
 }
 
-function handleDeleteReplyBtnClick(tweetId){
-
+//Check the UUID of the reply and delete
+function handleDeleteReplyBtnClick(replyId){
+    const targetReply = tweetsData.filter(function(reply, index, arr){
+        if (reply.uuid = replyId){
+            arr.splice(index, 1)
+            return true
+        }
+        return false
+    })
+    renderTweets()
 }
 
 function getFeedHtml(tweets) {
@@ -175,8 +182,9 @@ function getFeedHtml(tweets) {
                         <div> 
                             <div class="delete delete-reply">
                                 <p class="handle">${reply.handle}</p>
-                                <i class="fa-solid fa-trash-can"
-                                data-reply-delete="${tweet.uuid}"
+                                <i 
+                                class="fa-solid fa-trash-can"
+                                data-reply-delete="${reply.uuid}"
                                 ></i>
                             </div>
                             <p class="tweet-text">${reply.tweetText}</p>
