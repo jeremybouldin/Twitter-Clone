@@ -141,6 +141,12 @@ button{
     line-height: 20px;
 }
 
+.delete-post{
+    display: flex;
+    /* gap: 25px; */
+    justify-content: space-between;
+}
+
 /* images */
 
 .profile-pic{
