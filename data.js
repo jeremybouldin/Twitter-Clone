@@ -22,7 +22,7 @@ export const tweetsData = [
                 handle: `@TomCruise ✅`,
                 profilePic: `images/tcruise.png`,
                 tweetText: `Yes! Sign me up! 😎🛩`,
-                uuid: '386aaf9d-5770-4f8c-bb0c-5e4682293946'
+                uuid: '386aaf9d-5770-4f8c-bb0c-5e4682293946' //added UUID to replies to allow deleting
             },
                   {
                 handle: `@ChuckNorris ✅`,
