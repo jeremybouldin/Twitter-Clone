@@ -69,7 +69,7 @@ textarea{
     line-height: 30px;
 }
 
-#reply-input{
+.reply-input{
     font-size: 14px;
     height: 50px;
 }
@@ -89,7 +89,7 @@ button{
     font-size: 20px;
 }
 
-#reply-btn{
+#reply-input-btn{
     width: 50%;
     margin: 0 auto;
 }

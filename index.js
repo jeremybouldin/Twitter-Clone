@@ -10,6 +10,8 @@ document.addEventListener('click', function(e){
         handleReplyClick(e.target.dataset.reply)
     } else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
+    } else if(e.target.dataset.replyInputBtn){
+        handleReplyInputBtnClick(e.target.dataset.replyInputBtn)
     }
 })
 
@@ -87,7 +89,25 @@ function handleTweetBtnClick(){
         tweetInput.value = ''
         renderTweets()
     }
+}
+
+function handleReplyInputBtnClick(tweetId){
+    const replyInput = document.getElementById('text-input-'+tweetId)
+
     
+    if(replyInput.value){
+        const targetTweet = tweetsData.filter(function(tweet){
+            return tweet.uuid === tweetId
+        })[0]
+
+        targetTweet.replies.unshift({
+            handle: '@jbouldin87',
+            profilePic: 'images/scrimbalogo.png',
+            tweetText: replyInput.value
+        })
+        replyInput.value = ''
+        renderTweets()
+    }
 }
 
 function getFeedHtml(tweets) {
@@ -107,9 +127,13 @@ function getFeedHtml(tweets) {
             <div class="reply-input-area">
                 <textarea
                     placeholder="Tweet your reply!"
-                    id="reply-input"
+                    class="reply-input"
+                    id="text-input-${tweet.uuid}"
                 ></textarea>
-                <button id="reply-btn">Reply</button>
+                <button 
+                    id="reply-input-btn"
+                    data-reply-input-btn="${tweet.uuid}"
+                >Reply</button>
             </div>
         `
 
