@@ -12,6 +12,8 @@ document.addEventListener('click', function(e){
         handleTweetBtnClick()
     } else if(e.target.dataset.replyInputBtn){
         handleReplyInputBtnClick(e.target.dataset.replyInputBtn)
+    } else if(e.target.dataset.tweetDelete){
+        handleDeleteTweetBtnClick(e.target.dataset.tweetDelete)
     }
 })
 
@@ -102,11 +104,26 @@ function handleReplyInputBtnClick(tweetId){
         targetTweet.replies.unshift({
             handle: '@jbouldin87',
             profilePic: 'images/scrimbalogo.png',
-            tweetText: replyInput.value
+            tweetText: replyInput.value,
+            uuid: uuidv4()
         })
         replyInput.value = ''
         renderTweets()
     }
+}
+
+function handleDeleteTweetBtnClick(tweetId){
+    const targetTweet = tweetsData.filter(function(tweet, index, arr){
+        if (tweet.uuid === tweetId){
+            arr.splice(index, 1)
+            return true
+        }
+        return false
+    })
+    // targetTweet.pop()
+    console.log(targetTweet)
+    console.log(tweetsData)
+    renderTweets()
 }
 
 function getFeedHtml(tweets) {
@@ -143,10 +160,12 @@ function getFeedHtml(tweets) {
                     <div class="tweet-reply">
                         <div class="tweet-inner">
                             <img src="${reply.profilePic}" class="profile-pic">
-                            <div>
-                                <div class="delete-post">
+                            <div> 
+                                <div class="delete delete-reply">
                                     <p class="handle">${reply.handle}</p>
-                                    <i class="fa-solid fa-trash-can"></i>
+                                    <i class="fa-solid fa-trash-can"
+                                    data-reply-delete="${tweet.uuid}"
+                                    ></i>
                                 </div>
                                 <p class="tweet-text">${reply.tweetText}</p>
                             </div>
@@ -175,9 +194,11 @@ function getFeedHtml(tweets) {
                 <div class="tweet-inner">
                     <img src="${tweet.profilePic}" class="profile-pic">
                     <div>
-                        <div class="delete-post">
+                        <div class="delete delete-tweet">
                             <p class="handle">${tweet.handle}</p>
-                            <i class="fa-solid fa-trash-can"></i>
+                            <i class="fa-solid fa-trash-can"
+                            data-tweet-delete="${tweet.uuid}"
+                            ></i>
                         </div>
                         <p class="tweet-text">${tweet.tweetText}</p>
                         <div class="tweet-details">
