@@ -46,17 +46,32 @@ header{
     gap: 10px;
 }
 
+.reply-input-area {
+    border-top: 1px solid lightgray;
+    padding: 10px 0 0 0px;
+    margin: 10px 0 10px 40px;
+    width: 80%;
+}
+
 /* textareas + btn */
 
 textarea{
     border: none;
     padding: 10px;
+    width: 100%;
+    resize: none;
+}
+
+#tweet-input{
     margin: 0 0 20px 0;
     height: 60px;
-    width: 100%;
     font-size: 20px;
     line-height: 30px;
-    resize: none;
+}
+
+#reply-input{
+    font-size: 14px;
+    height: 50px;
 }
 
 button{
@@ -65,10 +80,18 @@ button{
     color: white;
     padding: 10px 19px;
     border-radius: 20px;
-    width: 100%; 
     cursor: pointer;
-    font-size: 20px;
     font-weight: 600;
+}
+
+#tweet-btn{
+    width: 100%; 
+    font-size: 20px;
+}
+
+#reply-btn{
+    width: 50%;
+    margin: 0 auto;
 }
 
 /* tweet */
@@ -130,3 +153,5 @@ button{
 .hidden{
     display: none;
 }
+
+/* replies */
