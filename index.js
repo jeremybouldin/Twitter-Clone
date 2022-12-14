@@ -147,15 +147,9 @@ function handleDeleteReplyBtnClick(replyId, tweetId){
 function getFeedHtml(tweets) {
     let feedHtml = ''
     tweets.forEach(function(tweet){
-        let likeIconClass = ''
-        let retweetIconClass = ''
 
-        if (tweet.isLiked){
-            likeIconClass = 'liked'
-        }
-        if (tweet.isRetweeted){
-            retweetIconClass = 'retweeted'
-        }
+        const likeIconClass = tweet.isLiked ? 'liked' : ''
+        const retweetIconClass = tweet.isRetweeted ? 'retweeted' : ''
 
         //REPLIES
         //Add in the reply textarea at the start of the replies section
