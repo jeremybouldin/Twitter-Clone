@@ -78,7 +78,7 @@ function handleReplyClick(replyId){
 function handleTweetBtnClick(){
     const tweetInput = document.getElementById('tweet-input')
 
-    if(tweetInput.value){
+    if(tweetInput.value.trim()){
         tweetsData.unshift({
             handle: '@jbouldin87',
             profilePic: 'images/scrimbalogo.png',
@@ -98,7 +98,7 @@ function handleTweetBtnClick(){
 function handleReplyInputBtnClick(tweetId){
     const replyInput = document.getElementById('text-input-'+tweetId)
     
-    if(replyInput.value){
+    if(replyInput.value.trim()){
         const targetTweet = tweetsData.filter(function(tweet){
             return tweet.uuid === tweetId
         })[0]
