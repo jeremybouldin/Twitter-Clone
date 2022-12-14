@@ -15,7 +15,7 @@ document.addEventListener('click', function(e){
     } else if(e.target.dataset.tweetDelete){
         handleDeleteTweetBtnClick(e.target.dataset.tweetDelete)
     } else if(e.target.dataset.replyDelete){
-        handleDeleteReplyBtnClick(e.target.dataset.replyDelete)
+        handleDeleteReplyBtnClick(e.target.dataset.replyDelete, e.target.dataset.tweetParent)
     }
 })
 
@@ -123,14 +123,19 @@ function handleDeleteTweetBtnClick(tweetId){
         }
         return false
     })
-    // targetTweet.pop()
     renderTweets()
 }
 
+//Filter the array of tweets
 //Check the UUID of the reply and delete
-function handleDeleteReplyBtnClick(replyId){
-    const targetReply = tweetsData.filter(function(reply, index, arr){
-        if (reply.uuid = replyId){
+function handleDeleteReplyBtnClick(replyId, tweetId){
+
+    const parentTweet = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+
+    const replyIndex = parentTweet.replies.filter(function(reply, index, arr){
+        if (reply.uuid === replyId){
             arr.splice(index, 1)
             return true
         }
@@ -168,7 +173,7 @@ function getFeedHtml(tweets) {
             </div>
         `
         //Next loop through each reply and add the initial HTML
-        if (tweet.replies.length > 0){
+        if (tweet.replies){
             tweet.replies.forEach(function(reply){
                 repliesHtml += `
                 <div class="tweet-reply">
@@ -182,9 +187,11 @@ function getFeedHtml(tweets) {
                         <div> 
                             <div class="delete delete-reply">
                                 <p class="handle">${reply.handle}</p>
+                <!-- added a reply id and parent tweet id to data-->
                                 <i 
                                 class="fa-solid fa-trash-can"
                                 data-reply-delete="${reply.uuid}"
+                                data-tweet-parent="${tweet.uuid}"
                                 ></i>
                             </div>
                             <p class="tweet-text">${reply.tweetText}</p>
@@ -216,26 +223,22 @@ function getFeedHtml(tweets) {
                 <div>
         `
         
-        //If user's own tweet, add trash icon along with user HTML
-        if(tweet.handle === '@jbouldin87'){
-            feedHtml += `
-                    <div class="delete delete-tweet">
-                        <p class="handle">${tweet.handle}</p>
-                        <i class="fa-solid fa-trash-can"
-                        data-tweet-delete="${tweet.uuid}"
-                        ></i>
-                    </div>
-            `
-            
-        //If not user's own tweet, add user HTML without trash icon
-        } else {
-            feedHtml += `
+        //Define html to be used if author's own post (add trash can if yes)
+        const authorsOwnPost = `
+                <div class="delete delete-tweet">
                     <p class="handle">${tweet.handle}</p>
-            `
-        }
+                    <i class="fa-solid fa-trash-can"
+                    data-tweet-delete="${tweet.uuid}"
+                    ></i>
+                </div>
+        `
+        const notAuthorsOwnPost = `
+                <p class="handle">${tweet.handle}</p>
+        `
 
         //Add in the rest of the tweet detail HTML
-        feedHtml +=`
+        feedHtml += `
+            ${tweet.handle === '@jbouldin87' ? authorsOwnPost : notAuthorsOwnPost}
                     <p class="tweet-text">${tweet.tweetText}</p>
                     <div class="tweet-details">
                         <span class="tweet-detail">
