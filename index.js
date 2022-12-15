@@ -116,14 +116,15 @@ function handleReplyInputBtnClick(tweetId){
 
 //Check the UUID of the tweet and delete
 function handleDeleteTweetBtnClick(tweetId){
-    const targetTweet = tweetsData.filter(function(tweet, index, arr){
-        if (tweet.uuid === tweetId){
-            arr.splice(index, 1)
-            return true
-        }
-        return false
-    })
-    renderTweets()
+    const targetTweet = tweetsData.filter(tweet => tweet.uuid !== tweetId)
+    // const targetTweet = tweetsData.filter(function(tweet, index, arr){
+    //     if (tweet.uuid === tweetId){
+    //         arr.splice(index, 1)
+    //         return true
+    //     }
+    //     return false
+    // })
+    renderTweets(targetTweet)
 }
 
 //Filter the array of tweets
@@ -134,13 +135,16 @@ function handleDeleteReplyBtnClick(replyId, tweetId){
         return tweet.uuid === tweetId
     })[0]
 
-    const replyIndex = parentTweet.replies.filter(function(reply, index, arr){
-        if (reply.uuid === replyId){
-            arr.splice(index, 1)
-            return true
-        }
-        return false
-    })
+    const replyIndex = parentTweet.replies.filter(reply => reply.uuid !== replyId)
+    // const replyIndex = parentTweet.replies.filter(function(reply, index, arr){
+    //     if (reply.uuid === replyId){
+    //         arr.splice(index, 1)
+    //         return true
+    //     }
+    //     return false
+    // })
+    // renderTweets(tweetsData)
+    parentTweet.replies = replyIndex
     renderTweets()
 }
 
@@ -266,8 +270,8 @@ function getFeedHtml(tweets) {
     return feedHtml
 }
 
-function renderTweets(){
-    document.getElementById('feed').innerHTML = getFeedHtml(tweetsData)
+function renderTweets(data){
+    document.getElementById('feed').innerHTML = getFeedHtml(data || tweetsData)
 }
 
 renderTweets()
