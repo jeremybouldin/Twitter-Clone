@@ -171,7 +171,7 @@ function getFeedHtml(tweets) {
             </div>
         `
         //Next loop through each reply and add the initial HTML
-        if (tweet.replies){
+        if (tweet.replies.length){
             tweet.replies.forEach(function(reply){
                 repliesHtml += `
                 <div class="tweet-reply">
